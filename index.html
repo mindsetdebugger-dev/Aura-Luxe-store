@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AURA Luxe | Premium Tech & Lifestyle Store</title>
+  <meta name="description" content="Discover cutting-edge audio, wearables, mechanical keyboards, and creator gear with spatial audio, titanium build, and glassmorphism design.">
+  
+  <!-- Favicon & App Icons -->
+  <link rel="icon" type="image/jpeg" href="favicon.jpg">
+  <link rel="apple-touch-icon" href="favicon.jpg">
+  <meta name="theme-color" content="#6366f1">
+
+  <!-- FontAwesome Icons CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Announcement Bar -->
+  <div class="announcement-bar">
+    <span class="pill">Summer Launch</span>
+    <span>Use code <strong>AURA10</strong> for 10% off your first luxury tech order!</span>
+  </div>
+
+  <!-- Header / Navigation -->
+  <header class="navbar">
+    <div class="container navbar-inner">
+      <!-- Logo -->
+      <a href="#" class="brand-logo">
+        <div class="logo-icon"><i class="fa-solid fa-gem"></i></div>
+        <div class="logo-text">AURA <span>LUXE</span></div>
+      </a>
+
+      <!-- Live Search -->
+      <div class="search-container">
+        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+        <input type="text" id="searchInput" class="search-input" placeholder="Search premium tech, headphones, keyboards..." aria-label="Search Products">
+      </div>
+
+      <!-- Action Icons & Auth -->
+      <div class="nav-actions">
+        <!-- Google Sign In / User Profile Widget -->
+        <div id="authWidgetContainer">
+          <button id="googleSignInBtn" class="google-signin-btn">
+            <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
+            Sign in with Google
+          </button>
+        </div>
+
+        <!-- My Orders Button -->
+        <button id="myOrdersBtn" class="icon-btn" title="My Orders" aria-label="My Orders" style="display: none;">
+          <i class="fa-solid fa-clock-rotate-left"></i>
+        </button>
+
+        <!-- Admin Control Panel Link -->
+        <a href="admin.html" class="icon-btn" title="Admin CMS Panel" aria-label="Admin CMS Panel">
+          <i class="fa-solid fa-sliders"></i>
+        </a>
+
+        <!-- Theme Toggle -->
+        <button id="themeToggleBtn" class="icon-btn" title="Toggle Theme" aria-label="Toggle Theme">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+
+        <!-- Wishlist Button -->
+        <button id="wishlistBtn" class="icon-btn" title="Wishlist" aria-label="Wishlist">
+          <i class="fa-regular fa-heart"></i>
+          <span id="wishlistBadge" class="badge-count" style="display: none;">0</span>
+        </button>
+
+        <!-- Cart Button -->
+        <button id="cartToggleBtn" class="icon-btn" title="Shopping Cart" aria-label="Shopping Cart">
+          <i class="fa-solid fa-bag-shopping"></i>
+          <span id="cartBadge" class="badge-count">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-banner">
+    <div class="container">
+      <div class="hero-card">
+        <div class="hero-content">
+          <div class="hero-tag">
+            <i class="fa-solid fa-sparkles"></i> Next-Gen Audio Experience
+          </div>
+          <h1 class="hero-title">Sound Precision <span>Redefined.</span></h1>
+          <p class="hero-description">
+            Experience spatial audio clarity, active noise cancellation, and titanium craft. Designed for audiophiles, creators, and modern digital nomads.
+          </p>
+          <div class="hero-cta">
+            <button id="heroExploreBtn" class="btn-primary">
+              Explore Collection <i class="fa-solid fa-arrow-right"></i>
+            </button>
+            <button id="heroQuickBuyBtn" class="btn-secondary">
+              View Flagship
+            </button>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="hero-img-wrap">
+            <img src="images/headphones.jpg" alt="AURA Pulse Pro Headphones" id="heroImage">
+          </div>
+          <div class="hero-floating-badge">
+            <div class="badge-icon"><i class="fa-solid fa-award"></i></div>
+            <div>
+              <div style="font-weight: 700; font-size: 0.9rem;">Editor's Pick 2026</div>
+              <div style="font-size: 0.75rem; color: var(--text-muted);">Rated 4.9/5 by 1,000+ Pros</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Store Main Section -->
+  <main class="store-section">
+    <div class="container">
+      <!-- Features Highlights -->
+      <div class="features-grid">
+        <div class="feature-box">
+          <div class="feature-icon-wrap"><i class="fa-solid fa-truck-fast"></i></div>
+          <div class="feature-info">
+            <h4>Free Global Shipping</h4>
+            <p>On all orders above $150</p>
+          </div>
+        </div>
+        <div class="feature-box">
+          <div class="feature-icon-wrap"><i class="fa-solid fa-shield-halved"></i></div>
+          <div class="feature-info">
+            <h4>2-Year Warranty</h4>
+            <p>Guaranteed hardware repair & replacement</p>
+          </div>
+        </div>
+        <div class="feature-box">
+          <div class="feature-icon-wrap"><i class="fa-solid fa-rotate-left"></i></div>
+          <div class="feature-info">
+            <h4>30-Day Easy Returns</h4>
+            <p>Hassle-free money back guarantee</p>
+          </div>
+        </div>
+        <div class="feature-box">
+          <div class="feature-icon-wrap"><i class="fa-solid fa-headset"></i></div>
+          <div class="feature-info">
+            <h4>24/7 VIP Support</h4>
+            <p>Dedicated tech specialists standing by</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Store Header & Category Chips -->
+      <div class="store-header">
+        <h2 class="section-title">
+          Explore Products <span id="productCountBadge" class="count-badge">8 Items</span>
+        </h2>
+      </div>
+
+      <!-- Category Filter Buttons -->
+      <div class="category-chips" id="categoryChips">
+        <button class="chip-btn active" data-category="all">All Products</button>
+        <button class="chip-btn" data-category="audio"><i class="fa-solid fa-headphones"></i> Audio</button>
+        <button class="chip-btn" data-category="wearables"><i class="fa-solid fa-stopwatch"></i> Wearables</button>
+        <button class="chip-btn" data-category="keyboards"><i class="fa-solid fa-keyboard"></i> Keyboards</button>
+        <button class="chip-btn" data-category="cameras"><i class="fa-solid fa-camera"></i> Cameras</button>
+        <button class="chip-btn" data-category="accessories"><i class="fa-solid fa-laptop"></i> Accessories</button>
+      </div>
+
+      <!-- Sort & Filter Bar -->
+      <div class="filter-bar">
+        <div class="filter-left">
+          <div style="font-weight: 600; font-size: 0.9rem;">
+            Sort By:
+          </div>
+          <select id="sortSelect" class="sort-select" aria-label="Sort products">
+            <option value="featured">Featured / Popular</option>
+            <option value="price-low">Price: Low to High</option>
+            <option value="price-high">Price: High to Low</option>
+            <option value="rating">Top Rated</option>
+          </select>
+        </div>
+
+        <div style="font-size: 0.85rem; color: var(--text-muted);" id="activeFilterText">
+          Showing all luxury items
+        </div>
+      </div>
+
+      <!-- Product Grid -->
+      <div class="products-grid" id="productsGrid">
+        <!-- Dynamically rendered via app.js -->
+      </div>
+    </div>
+  </main>
+
+  <!-- Slide-Over Shopping Cart Drawer -->
+  <div class="drawer-backdrop" id="cartBackdrop">
+    <aside class="cart-drawer" id="cartDrawer" aria-label="Shopping Cart">
+      <div class="drawer-header">
+        <div class="drawer-title">
+          <i class="fa-solid fa-bag-shopping" style="color: var(--brand-primary);"></i>
+          Your Shopping Cart
+        </div>
+        <button class="close-btn" id="closeCartBtn" aria-label="Close cart drawer">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Free Shipping Progress Bar -->
+      <div style="padding: 1rem 1.5rem 0;">
+        <div class="shipping-meter">
+          <div id="shippingMeterText">Add <strong>$150.00</strong> more for Free Express Shipping!</div>
+          <div class="meter-bar">
+            <div id="shippingMeterFill" class="meter-fill"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="drawer-body" id="cartItemsList">
+        <!-- Cart Items rendered dynamically -->
+      </div>
+
+      <div class="drawer-footer">
+        <!-- Coupon Code Group -->
+        <div class="promo-input-group">
+          <input type="text" id="promoInput" placeholder="Promo Code (e.g. AURA10)" aria-label="Promo code">
+          <button id="applyPromoBtn">Apply</button>
+        </div>
+        <div id="promoMessage" style="font-size: 0.8rem; display: none;"></div>
+
+        <!-- Order Calculations -->
+        <div class="cart-summary-line">
+          <span>Subtotal</span>
+          <span id="cartSubtotal">$0.00</span>
+        </div>
+        <div class="cart-summary-line" id="discountRow" style="display: none; color: var(--accent-emerald);">
+          <span>Discount</span>
+          <span id="cartDiscount">-$0.00</span>
+        </div>
+        <div class="cart-summary-line">
+          <span>Estimated Shipping</span>
+          <span id="cartShipping">$15.00</span>
+        </div>
+        <div class="cart-summary-line total">
+          <span>Total Amount</span>
+          <span id="cartTotal">$0.00</span>
+        </div>
+
+        <button id="checkoutBtn" class="btn-primary" style="width: 100%; justify-content: center; margin-top: 0.5rem;">
+          Proceed to Checkout <i class="fa-solid fa-lock"></i>
+        </button>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Product Detail Quick-View Modal -->
+  <div class="modal-overlay" id="productModalOverlay">
+    <div class="modal-content" id="productModalContent">
+      <button class="close-btn modal-close" id="closeModalBtn" aria-label="Close modal">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <div class="product-detail-grid" id="modalProductDetails">
+        <!-- Dynamically rendered via app.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Checkout Flow Modal -->
+  <div class="modal-overlay" id="checkoutModalOverlay">
+    <div class="modal-content checkout-modal-content">
+      <button class="close-btn modal-close" id="closeCheckoutBtn" aria-label="Close checkout">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      
+      <div class="checkout-steps">
+        <div class="step-item active">
+          <div class="step-number">1</div> Shipping Info
+        </div>
+        <div class="step-item">
+          <div class="step-number">2</div> Payment
+        </div>
+        <div class="step-item">
+          <div class="step-number">3</div> Order Confirmation
+        </div>
+      </div>
+
+      <form id="checkoutForm">
+        <h3 style="margin-bottom: 1.2rem;">Shipping Details</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input type="text" id="firstName" class="form-control" placeholder="Alex" required>
+          </div>
+          <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input type="text" id="lastName" class="form-control" placeholder="Morgan" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" class="form-control" placeholder="alex.morgan@example.com" required>
+        </div>
+
+        <div class="form-group">
+          <label for="address">Delivery Street Address</label>
+          <input type="text" id="address" class="form-control" placeholder="742 Evergreen Terrace" required>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="city">City</label>
+            <input type="text" id="city" class="form-control" placeholder="San Francisco" required>
+          </div>
+          <div class="form-group">
+            <label for="zip">Postal Code</label>
+            <input type="text" id="zip" class="form-control" placeholder="94107" required>
+          </div>
+        </div>
+
+        <h3 style="margin: 1.5rem 0 1.2rem;">Payment Method</h3>
+        <div class="form-group">
+          <select id="paymentMethod" class="form-control">
+            <option value="card">💳 Credit / Debit Card</option>
+            <option value="applepay">🍎 Apple Pay</option>
+            <option value="crypto">⚡ Solana / USDC Crypto</option>
+          </select>
+        </div>
+
+        <div id="cardDetailsGroup">
+          <div class="form-group">
+            <label for="cardNumber">Card Number</label>
+            <input type="text" id="cardNumber" class="form-control" placeholder="4242 •••• •••• 4242" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="cardExp">Expiry Date</label>
+              <input type="text" id="cardExp" class="form-control" placeholder="12/28" required>
+            </div>
+            <div class="form-group">
+              <label for="cardCvc">CVC</label>
+              <input type="text" id="cardCvc" class="form-control" placeholder="888" required>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top: 2rem; display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <span style="font-size: 0.85rem; color: var(--text-muted);">Total to Pay:</span>
+            <div id="checkoutPayAmount" style="font-size: 1.4rem; font-weight: 800; color: var(--brand-primary);">$0.00</div>
+          </div>
+          <button type="submit" class="btn-primary">
+            Complete Order <i class="fa-solid fa-circle-check"></i>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="#" class="brand-logo">
+            <div class="logo-icon"><i class="fa-solid fa-gem"></i></div>
+            <div class="logo-text">AURA <span>LUXE</span></div>
+          </a>
+          <p>Elevating daily lifestyle through high-fidelity acoustics, aerospace titanium craftsmanship, and minimal design aesthetics.</p>
+        </div>
+
+        <div class="footer-column">
+          <h5>Shop Categories</h5>
+          <ul>
+            <li><a href="#">Spatial Audio</a></li>
+            <li><a href="#">Smart Wearables</a></li>
+            <li><a href="#">Custom Keyboards</a></li>
+            <li><a href="#">Cinema Cameras</a></li>
+            <li><a href="#">Tech Accessories</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h5>Customer Care</h5>
+          <ul>
+            <li><a href="#">Track Order</a></li>
+            <li><a href="#">Warranty & Repair</a></li>
+            <li><a href="#">Shipping Policy</a></li>
+            <li><a href="#">30-Day Guarantee</a></li>
+            <li><a href="#">VIP Support</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h5>Stay Connected</h5>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
+            Subscribe to receive exclusive access to limited edition drops.
+          </p>
+          <div class="promo-input-group">
+            <input type="email" placeholder="Your email address" aria-label="Email subscription">
+            <button class="btn-primary" style="padding: 0 1rem;"><i class="fa-solid fa-paper-plane"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>&copy; 2026 AURA Luxe Technologies Inc. All rights reserved.</div>
+        <div style="display: flex; gap: 1.5rem;">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Security</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- My Orders Modal -->
+  <div class="modal-overlay" id="myOrdersModalOverlay">
+    <div class="modal-content" style="max-width: 650px; padding: 2.5rem;">
+      <button class="close-btn modal-close" id="closeMyOrdersBtn" aria-label="Close modal">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <h3 style="margin-bottom: 1.5rem;"><i class="fa-solid fa-clock-rotate-left" style="color: var(--brand-primary);"></i> My Order History</h3>
+      <div id="myOrdersList">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="products.js"></script>
+  <script src="firebase-config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

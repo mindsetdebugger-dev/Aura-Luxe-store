@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AURA Luxe | Admin Control Panel & CMS</title>
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- Favicon & App Icons -->
+  <link rel="icon" type="image/jpeg" href="favicon.jpg">
+  <link rel="apple-touch-icon" href="favicon.jpg">
+  <meta name="theme-color" content="#f59e0b">
+  
+  <!-- FontAwesome Icons CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="admin-body">
+
+  <!-- Admin Passcode Security Modal Guard -->
+  <div class="modal-overlay active" id="adminAuthGuardModal" style="z-index: 9999; background: rgba(9, 13, 22, 0.95); backdrop-filter: blur(20px);">
+    <div class="modal-content" style="max-width: 420px; padding: 2.5rem; text-align: center; border: 1px solid var(--brand-primary);">
+      <div style="width: 60px; height: 60px; border-radius: 50%; background: var(--brand-gradient); display: flex; align-items: center; justify-content: center; margin: 0 auto 1.2rem; font-size: 1.6rem; color: #fff;">
+        <i class="fa-solid fa-user-shield"></i>
+      </div>
+      <h3 style="margin-bottom: 0.5rem;">Restricted Admin CMS</h3>
+      <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1.5rem;">
+        Enter your secure 4-digit Admin PIN to unlock the store control panel.
+      </p>
+
+      <form id="adminPinForm">
+        <div class="form-group">
+          <input type="password" id="adminPinInput" class="form-control" placeholder="••••" maxlength="6" style="text-align: center; font-size: 1.8rem; letter-spacing: 8px; font-weight: 800;" autofocus required>
+        </div>
+        <div id="pinErrorMsg" style="color: var(--accent-rose); font-size: 0.82rem; display: none; margin-bottom: 1rem;">
+          <i class="fa-solid fa-circle-exclamation"></i> Incorrect PIN code. Default is 8888
+        </div>
+        <button type="submit" class="btn-primary" style="width: 100%; justify-content: center;">
+          Unlock CMS Dashboard <i class="fa-solid fa-key"></i>
+        </button>
+      </form>
+      <div style="margin-top: 1.2rem;">
+        <a href="index.html" style="font-size: 0.85rem; color: var(--text-muted); text-decoration: underline;">Return to Public Storefront</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin Top Navbar -->
+  <header class="navbar admin-navbar">
+    <div class="container navbar-inner">
+      <a href="index.html" class="brand-logo">
+        <div class="logo-icon" style="background: linear-gradient(135deg, #f59e0b, #ec4899);"><i class="fa-solid fa-sliders"></i></div>
+        <div class="logo-text">AURA <span>CMS</span></div>
+      </a>
+
+      <div style="display: flex; align-items: center; gap: 1rem;">
+        <span class="status-indicator">
+          <span class="pulse-dot"></span> Live Firestore Sync
+        </span>
+        <a href="index.html" class="btn-secondary" style="font-size: 0.85rem; padding: 0.5rem 1rem;">
+          <i class="fa-solid fa-store"></i> View Storefront
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Admin Main Container -->
+  <main class="container" style="padding-top: 2rem; padding-bottom: 4rem;">
+    
+    <!-- Header Banner -->
+    <div class="admin-header-banner">
+      <div>
+        <h2>Store Control Center & Inventory CMS</h2>
+        <p style="color: var(--text-secondary); font-size: 0.95rem; margin-top: 0.3rem;">
+          Manage live store inventory, add new luxury products, update pricing, and fulfill customer orders.
+        </p>
+      </div>
+      <button id="addNewProductBtn" class="btn-primary">
+        <i class="fa-solid fa-plus"></i> Add New Product
+      </button>
+    </div>
+
+    <!-- Analytics Cards Grid -->
+    <div class="admin-metrics-grid">
+      <div class="metric-card">
+        <div class="metric-icon" style="background: rgba(99, 102, 241, 0.15); color: #6366f1;">
+          <i class="fa-solid fa-dollar-sign"></i>
+        </div>
+        <div>
+          <div class="metric-title">Total Gross Revenue</div>
+          <div class="metric-value" id="metricTotalRevenue">$0.00</div>
+          <div class="metric-sub text-emerald"><i class="fa-solid fa-arrow-trend-up"></i> Live calculation</div>
+        </div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-icon" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">
+          <i class="fa-solid fa-boxes-packing"></i>
+        </div>
+        <div>
+          <div class="metric-title">Total Orders Placed</div>
+          <div class="metric-value" id="metricTotalOrders">0</div>
+          <div class="metric-sub" id="metricPendingOrders">0 Pending Fulfillment</div>
+        </div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-icon" style="background: rgba(139, 92, 246, 0.15); color: #8b5cf6;">
+          <i class="fa-solid fa-cubes"></i>
+        </div>
+        <div>
+          <div class="metric-title">Active Products</div>
+          <div class="metric-value" id="metricActiveProducts">0</div>
+          <div class="metric-sub">Catalog inventory count</div>
+        </div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-icon" style="background: rgba(245, 158, 11, 0.15); color: #f59e0b;">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+        </div>
+        <div>
+          <div class="metric-title">Low Stock Alert</div>
+          <div class="metric-value" id="metricLowStock">0</div>
+          <div class="metric-sub text-rose">Items with &lt; 10 units left</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Admin Navigation Tabs -->
+    <div class="admin-tabs">
+      <button class="admin-tab-btn active" data-tab="productsTab">
+        <i class="fa-solid fa-box-open"></i> Products Catalog Manager
+      </button>
+      <button class="admin-tab-btn" data-tab="ordersTab">
+        <i class="fa-solid fa-receipt"></i> Orders & Fulfillment Center
+      </button>
+    </div>
+
+    <!-- Tab 1: Products Catalog Table -->
+    <div id="productsTab" class="admin-tab-content active">
+      <div class="admin-table-container">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Product Details</th>
+              <th>Category</th>
+              <th>Price</th>
+              <th>Stock Status</th>
+              <th>Badge</th>
+              <th>Rating</th>
+              <th style="text-align: right;">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="adminProductsTableBody">
+            <!-- Dynamically populated via script -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Tab 2: Customer Orders Table -->
+    <div id="ordersTab" class="admin-tab-content" style="display: none;">
+      <div class="admin-table-container">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Order ID & Date</th>
+              <th>Customer Information</th>
+              <th>Items Ordered</th>
+              <th>Total Amount</th>
+              <th>Payment</th>
+              <th>Fulfillment Status</th>
+              <th style="text-align: right;">Update Status</th>
+            </tr>
+          </thead>
+          <tbody id="adminOrdersTableBody">
+            <!-- Dynamically populated via script -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <!-- Add / Edit Product Modal -->
+  <div class="modal-overlay" id="productFormModal">
+    <div class="modal-content" style="max-width: 650px; padding: 2.5rem;">
+      <button class="close-btn modal-close" id="closeProductFormBtn">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <h3 id="productFormTitle" style="margin-bottom: 1.5rem;">Add New Luxury Product</h3>
+
+      <form id="productForm">
+        <input type="hidden" id="editProductId">
+
+        <div class="form-group">
+          <label for="prodName">Product Title / Model Name</label>
+          <input type="text" id="prodName" class="form-control" placeholder="e.g. AURA Spatial Pods Ultra" required>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="prodCategory">Category</label>
+            <select id="prodCategory" class="form-control" required>
+              <option value="audio">Audio</option>
+              <option value="wearables">Wearables</option>
+              <option value="keyboards">Keyboards</option>
+              <option value="cameras">Cameras</option>
+              <option value="accessories">Accessories</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="prodBadge">Badge Label</label>
+            <input type="text" id="prodBadge" class="form-control" placeholder="e.g. New Arrival, Best Seller">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="prodPrice">Selling Price ($)</label>
+            <input type="number" id="prodPrice" class="form-control" placeholder="299" step="0.01" required>
+          </div>
+          <div class="form-group">
+            <label for="prodOriginalPrice">Original MSRP ($)</label>
+            <input type="number" id="prodOriginalPrice" class="form-control" placeholder="349" step="0.01">
+          </div>
+          <div class="form-group">
+            <label for="prodStock">Stock Inventory</label>
+            <input type="number" id="prodStock" class="form-control" placeholder="20" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="prodTagline">Short Tagline</label>
+          <input type="text" id="prodTagline" class="form-control" placeholder="e.g. Active Noise Canceling & Spatial Audio" required>
+        </div>
+
+        <div class="form-group">
+          <label for="prodImage">Image URL</label>
+          <input type="text" id="prodImage" class="form-control" placeholder="e.g. images/headphones.jpg or https://..." required>
+        </div>
+
+        <div class="form-group">
+          <label for="prodDescription">Detailed Description</label>
+          <textarea id="prodDescription" class="form-control" rows="3" placeholder="Describe the craftsmanship, materials, and tech specs..." required></textarea>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 1.5rem;">
+          <button type="button" class="btn-secondary" id="cancelProductFormBtn">Cancel</button>
+          <button type="submit" class="btn-primary"><i class="fa-solid fa-floppy-disk"></i> Save Product</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Scripts -->
+  <script src="products.js"></script>
+  <script src="firebase-config.js"></script>
+  <script>
+    (function() {
+      'use strict';
+
+      const DOM = {
+        productsTab: document.getElementById('productsTab'),
+        ordersTab: document.getElementById('ordersTab'),
+        adminProductsTableBody: document.getElementById('adminProductsTableBody'),
+        adminOrdersTableBody: document.getElementById('adminOrdersTableBody'),
+        
+        // Metrics
+        metricTotalRevenue: document.getElementById('metricTotalRevenue'),
+        metricTotalOrders: document.getElementById('metricTotalOrders'),
+        metricPendingOrders: document.getElementById('metricPendingOrders'),
+        metricActiveProducts: document.getElementById('metricActiveProducts'),
+        metricLowStock: document.getElementById('metricLowStock'),
+
+        // Modal Form
+        productFormModal: document.getElementById('productFormModal'),
+        addNewProductBtn: document.getElementById('addNewProductBtn'),
+        closeProductFormBtn: document.getElementById('closeProductFormBtn'),
+        cancelProductFormBtn: document.getElementById('cancelProductFormBtn'),
+        productForm: document.getElementById('productForm'),
+        productFormTitle: document.getElementById('productFormTitle'),
+        editProductId: document.getElementById('editProductId'),
+
+        toastContainer: document.getElementById('toastContainer')
+      };
+
+      function initAdmin() {
+        // Admin Security PIN Check
+        const ADMIN_PIN = '8888';
+        const adminAuthGuardModal = document.getElementById('adminAuthGuardModal');
+        const adminPinForm = document.getElementById('adminPinForm');
+        const adminPinInput = document.getElementById('adminPinInput');
+        const pinErrorMsg = document.getElementById('pinErrorMsg');
+
+        // Check if unlocked in session
+        if (sessionStorage.getItem('aura_admin_unlocked') === 'true') {
+          adminAuthGuardModal.classList.remove('active');
+        }
+
+        adminPinForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          if (adminPinInput.value === ADMIN_PIN) {
+            sessionStorage.setItem('aura_admin_unlocked', 'true');
+            adminAuthGuardModal.classList.remove('active');
+            showToast('Admin access granted', 'fa-user-shield');
+          } else {
+            pinErrorMsg.style.display = 'block';
+            adminPinInput.value = '';
+          }
+        });
+
+        renderMetrics();
+        renderProductsTable();
+        renderOrdersTable();
+        attachAdminEvents();
+      }
+
+      function renderMetrics() {
+        const products = AuraBackend.db.getProducts();
+        const orders = AuraBackend.db.getOrders();
+
+        const totalRev = orders.reduce((sum, o) => sum + (o.total || 0), 0);
+        const pendingCount = orders.filter(o => o.status === 'Pending' || o.status === 'Processing').length;
+        const lowStockCount = products.filter(p => (p.stock || 0) < 10).length;
+
+        DOM.metricTotalRevenue.textContent = `$${totalRev.toFixed(2)}`;
+        DOM.metricTotalOrders.textContent = orders.length;
+        DOM.metricPendingOrders.textContent = `${pendingCount} Pending Fulfillment`;
+        DOM.metricActiveProducts.textContent = products.length;
+        DOM.metricLowStock.textContent = lowStockCount;
+      }
+
+      function renderProductsTable() {
+        const products = AuraBackend.db.getProducts();
+
+        if (products.length === 0) {
+          DOM.adminProductsTableBody.innerHTML = `
+            <tr><td colspan="7" style="text-align: center; padding: 2rem;">No products in database. Click "Add New Product" to create one.</td></tr>
+          `;
+          return;
+        }
+
+        DOM.adminProductsTableBody.innerHTML = products.map(p => `
+          <tr>
+            <td>
+              <div style="display: flex; align-items: center; gap: 0.8rem;">
+                <img src="${p.image}" alt="${p.name}" style="width: 44px; height: 44px; border-radius: 8px; object-fit: cover;" onerror="this.src='https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=100&auto=format&fit=crop&q=80'">
+                <div>
+                  <div style="font-weight: 700; font-size: 0.9rem;">${p.name}</div>
+                  <div style="font-size: 0.78rem; color: var(--text-muted);">${p.tagline}</div>
+                </div>
+              </div>
+            </td>
+            <td><span class="chip-badge">${p.category}</span></td>
+            <td><strong style="color: var(--brand-primary);">$${p.price}</strong></td>
+            <td>
+              <span class="stock-badge ${p.stock < 10 ? 'low' : 'ok'}">
+                ${p.stock} units
+              </span>
+            </td>
+            <td><span class="badge-tag">${p.badge || 'Standard'}</span></td>
+            <td><i class="fa-solid fa-star" style="color: var(--accent-amber);"></i> ${p.rating || 5.0}</td>
+            <td style="text-align: right;">
+              <button class="btn-icon" data-action="edit" data-id="${p.id}" title="Edit Product"><i class="fa-solid fa-pen"></i></button>
+              <button class="btn-icon text-rose" data-action="delete" data-id="${p.id}" title="Delete Product"><i class="fa-solid fa-trash-can"></i></button>
+            </td>
+          </tr>
+        `).join('');
+      }
+
+      function renderOrdersTable() {
+        const orders = AuraBackend.db.getOrders();
+
+        if (orders.length === 0) {
+          DOM.adminOrdersTableBody.innerHTML = `
+            <tr><td colspan="7" style="text-align: center; padding: 2rem;">No orders placed yet.</td></tr>
+          `;
+          return;
+        }
+
+        DOM.adminOrdersTableBody.innerHTML = orders.map(o => {
+          const dateStr = new Date(o.date).toLocaleDateString() + ' ' + new Date(o.date).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+          const itemsText = o.items ? o.items.map(i => `${i.name} (x${i.qty || 1})`).join(', ') : 'Order details';
+
+          return `
+            <tr>
+              <td>
+                <div style="font-weight: 700;">${o.orderId}</div>
+                <div style="font-size: 0.75rem; color: var(--text-muted);">${dateStr}</div>
+              </td>
+              <td>
+                <div style="font-weight: 600;">${o.customer ? o.customer.name : 'Guest Customer'}</div>
+                <div style="font-size: 0.78rem; color: var(--text-muted);">${o.customer ? o.customer.email : ''}</div>
+              </td>
+              <td><div style="font-size: 0.85rem; max-width: 250px;">${itemsText}</div></td>
+              <td><strong style="color: var(--accent-emerald); font-size: 1rem;">$${(o.total || 0).toFixed(2)}</strong></td>
+              <td><span style="font-size: 0.85rem;">${o.paymentMethod || 'Card'}</span></td>
+              <td>
+                <span class="status-pill ${o.status.toLowerCase()}">${o.status}</span>
+              </td>
+              <td style="text-align: right;">
+                <select class="status-select" data-id="${o.orderId}">
+                  <option value="Pending" ${o.status === 'Pending' ? 'selected' : ''}>Pending</option>
+                  <option value="Processing" ${o.status === 'Processing' ? 'selected' : ''}>Processing</option>
+                  <option value="Shipped" ${o.status === 'Shipped' ? 'selected' : ''}>Shipped</option>
+                  <option value="Delivered" ${o.status === 'Delivered' ? 'selected' : ''}>Delivered</option>
+                  <option value="Cancelled" ${o.status === 'Cancelled' ? 'selected' : ''}>Cancelled</option>
+                </select>
+              </td>
+            </tr>
+          `;
+        }).join('');
+      }
+
+      function attachAdminEvents() {
+        // Tab Switching
+        document.querySelectorAll('.admin-tab-btn').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const targetTab = btn.dataset.tab;
+            DOM.productsTab.style.display = targetTab === 'productsTab' ? 'block' : 'none';
+            DOM.ordersTab.style.display = targetTab === 'ordersTab' ? 'block' : 'none';
+          });
+        });
+
+        // Add Product Button
+        DOM.addNewProductBtn.addEventListener('click', () => {
+          DOM.productFormTitle.textContent = 'Add New Luxury Product';
+          DOM.editProductId.value = '';
+          DOM.productForm.reset();
+          DOM.productFormModal.classList.add('active');
+        });
+
+        DOM.closeProductFormBtn.addEventListener('click', () => DOM.productFormModal.classList.remove('active'));
+        DOM.cancelProductFormBtn.addEventListener('click', () => DOM.productFormModal.classList.remove('active'));
+
+        // Save Product Form
+        DOM.productForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+
+          const prodData = {
+            id: DOM.editProductId.value || undefined,
+            name: document.getElementById('prodName').value,
+            category: document.getElementById('prodCategory').value,
+            price: parseFloat(document.getElementById('prodPrice').value),
+            originalPrice: parseFloat(document.getElementById('prodOriginalPrice').value) || null,
+            stock: parseInt(document.getElementById('prodStock').value),
+            badge: document.getElementById('prodBadge').value || 'New',
+            tagline: document.getElementById('prodTagline').value,
+            image: document.getElementById('prodImage').value,
+            description: document.getElementById('prodDescription').value,
+            rating: 5.0,
+            reviewsCount: 1,
+            features: [
+              'Aerospace precision build',
+              'Premium spatial acoustic audio',
+              'Fast USB-C charging'
+            ]
+          };
+
+          AuraBackend.db.saveProduct(prodData);
+          DOM.productFormModal.classList.remove('active');
+          renderMetrics();
+          renderProductsTable();
+          showToast('Product saved successfully to database', 'fa-circle-check');
+        });
+
+        // Edit / Delete Table Delegation
+        DOM.adminProductsTableBody.addEventListener('click', (e) => {
+          const editBtn = e.target.closest('[data-action="edit"]');
+          if (editBtn) {
+            const prod = AuraBackend.db.getProducts().find(p => p.id === editBtn.dataset.id);
+            if (prod) {
+              DOM.productFormTitle.textContent = 'Edit Product: ' + prod.name;
+              DOM.editProductId.value = prod.id;
+              document.getElementById('prodName').value = prod.name;
+              document.getElementById('prodCategory').value = prod.category;
+              document.getElementById('prodPrice').value = prod.price;
+              document.getElementById('prodOriginalPrice').value = prod.originalPrice || '';
+              document.getElementById('prodStock').value = prod.stock || 10;
+              document.getElementById('prodBadge').value = prod.badge || '';
+              document.getElementById('prodTagline').value = prod.tagline || '';
+              document.getElementById('prodImage').value = prod.image || '';
+              document.getElementById('prodDescription').value = prod.description || '';
+
+              DOM.productFormModal.classList.add('active');
+            }
+            return;
+          }
+
+          const deleteBtn = e.target.closest('[data-action="delete"]');
+          if (deleteBtn) {
+            if (confirm('Are you sure you want to delete this product from the database?')) {
+              AuraBackend.db.deleteProduct(deleteBtn.dataset.id);
+              renderMetrics();
+              renderProductsTable();
+              showToast('Product removed from database', 'fa-trash-can');
+            }
+          }
+        });
+
+        // Status Update Delegation
+        DOM.adminOrdersTableBody.addEventListener('change', (e) => {
+          if (e.target.classList.contains('status-select')) {
+            const orderId = e.target.dataset.id;
+            const newStatus = e.target.value;
+            AuraBackend.db.updateOrderStatus(orderId, newStatus);
+            renderMetrics();
+            renderOrdersTable();
+            showToast(`Order <strong>${orderId}</strong> status updated to ${newStatus}`, 'fa-truck-fast');
+          }
+        });
+      }
+
+      function showToast(message, icon = 'fa-circle-check') {
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.innerHTML = `<i class="fa-solid ${icon} toast-icon"></i> <span>${message}</span>`;
+        DOM.toastContainer.appendChild(toast);
+        setTimeout(() => {
+          toast.style.opacity = '0';
+          setTimeout(() => toast.remove(), 300);
+        }, 3000);
+      }
+
+      document.addEventListener('DOMContentLoaded', initAdmin);
+    })();
+  </script>
+</body>
+</html>
